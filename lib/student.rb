@@ -33,7 +33,7 @@ class Student
     SQL
     DB[:conn].execute(sql, name).map do |row|
       self.new_from_db(row)
-    end
+    end.first
   end
     # find the student in the database given a name
     # return a new instance of the Student class
@@ -64,3 +64,26 @@ class Student
     DB[:conn].execute(sql)
   end
 end
+
+def self.students_below_12th_grade
+  sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade < 12
+  SQL
+  
+  DB[:conn].execute(sql).map do |row|
+    self.new_from_db(row)
+  end
+end
+
+def self.all.students_in_grade_9
+  sql = <<-SQL
+  SELECT COUNT(*)
+  FROM students
+  WHERE grade = 9;
+  SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
